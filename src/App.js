@@ -1,10 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import PrivateRoute from './components/PrivateRoute'
 import Header from './components/Header'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import Admin from './pages/Admin'
 
 function App() {
     return (
@@ -25,6 +27,15 @@ function App() {
                             path='/signup'
                             element={<Signup />}
                         />
+                        <Route
+                            path='/admin'
+                            element={<PrivateRoute />}
+                        >
+                            <Route
+                                path='/admin'
+                                element={<Admin />}
+                            />
+                        </Route>
                     </Routes>
                 </div>
             </Router>

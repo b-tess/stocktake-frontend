@@ -74,6 +74,13 @@ a {
     border-radius: 5px;
 }
 
+.heading {
+    font-weight: bold;
+    font-size: 32px;
+    color: #212529;
+    text-align: center;
+}
+
 .btn {
     background-color: #212529;
     color: #ffe0e9;
@@ -102,6 +109,12 @@ a {
 
 .btn:hover {
     transform: scale(0.98);
+}
+
+.btn:disabled {
+    text-decoration: line-through;
+    transform: none;
+    cursor: default;
 }
 
 .form {
