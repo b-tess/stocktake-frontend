@@ -37,12 +37,6 @@ body {
     text-shadow: #6c757d -2px 2px 3px;
 }
 
-h3 {
-    background-color: #6c757d;
-    padding: 5px;
-    border-radius: 5px;
-}
-
 a {
     text-decoration: none;
     color: #ffe0e9;
@@ -57,6 +51,15 @@ a {
     box-shadow: 0 2px 1px #c9184a;
 }
 
+.header a {
+    background-color: #6c757d;
+    padding: 2px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .header ul {
     display: flex;
     align-items: center;
@@ -67,7 +70,7 @@ a {
     margin-left: 15px;
     background-color: #6c757d;
     color: #ffe0e9;
-    padding: 5px;
+    padding: 2px;
     border-radius: 5px;
 }
 
@@ -89,6 +92,12 @@ a {
 
 .btn-reverse {
     background-color: #6c757d;
+}
+
+.btn-back {
+    width: 75px;
+    padding: 5px;
+    margin-top: 15px;
 }
 
 .btn:hover {
@@ -126,4 +135,17 @@ a {
 
 .form-group .btn {
     margin: 0 auto;
+}
+
+.spinnerContainer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
