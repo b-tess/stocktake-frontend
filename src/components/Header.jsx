@@ -15,6 +15,7 @@ function Header() {
         dispatch(logout())
         dispatch(reset())
         navigate('/')
+        console.log('logged out')
     }
 
     return (
@@ -25,10 +26,12 @@ function Header() {
 
             <ul>
                 {user ? (
-                    <Link onClick={onLogout}>
-                        <GoSignOut />
-                        Sign Out
-                    </Link>
+                    <li>
+                        <Link onClick={onLogout}>
+                            <GoSignOut />
+                            Sign Out
+                        </Link>
+                    </li>
                 ) : (
                     <>
                         <li>

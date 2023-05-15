@@ -29,7 +29,7 @@ function Login() {
 
         if (isSuccess && user) {
             console.log(`Welcome ${user.name}.`)
-            navigate('/signup')
+            navigate('/adminspace')
         }
 
         dispatch(reset())

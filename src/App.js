@@ -28,11 +28,11 @@ function App() {
                             element={<Signup />}
                         />
                         <Route
-                            path='/admin'
+                            path='/adminspace'
                             element={<PrivateRoute />}
                         >
                             <Route
-                                path='/admin'
+                                path='/adminspace'
                                 element={<Admin />}
                             />
                         </Route>
