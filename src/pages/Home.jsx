@@ -6,10 +6,10 @@ function Home() {
             <div className='capsule'>
                 <h1>STOCKTAKE</h1>
                 <Link
-                    to={'/login'}
+                    to={'/adminspace'}
                     className='btn'
                 >
-                    Sign In
+                    Admin Space
                 </Link>
                 <Link
                     to={'/signup'}

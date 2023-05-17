@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { signup, reset } from '../features/auth/authSlice'
+import { signup } from '../features/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Spinner from '../components/Spinner'
@@ -29,12 +29,12 @@ function Signup() {
         }
 
         if (user && isSuccess) {
-            console.log(`Hello ${user.name}`)
-            navigate('/adminspace')
+            console.log(`Hello ${user.name}.`)
+            navigate('/')
         }
 
-        dispatch(reset())
-    }, [isError, message, user, isSuccess, dispatch, navigate])
+        // dispatch(reset())
+    }, [isError, message, user, isSuccess, navigate])
 
     function onChange(e) {
         setFormData((prevState) => ({

@@ -1,9 +1,11 @@
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+// import { useSelector } from 'react-redux'
+import { useAdminStatus } from '../hooks/useAdminStatus'
 
 function Admin() {
     //Check if a user is admin or not
-    const { user } = useSelector((state) => state.auth)
+    // const { user } = useSelector((state) => state.auth)
+    const { isAdministrator } = useAdminStatus()
 
     const navigate = useNavigate()
     return (
@@ -21,7 +23,7 @@ function Admin() {
                     <button
                         type='button'
                         className='btn'
-                        disabled={user.isAdmin ? false : true}
+                        disabled={isAdministrator ? false : true}
                         onClick={() => navigate('/')}
                     >
                         Stock In

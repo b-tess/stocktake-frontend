@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { login, reset } from '../features/auth/authSlice'
+import { login } from '../features/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Spinner from '../components/Spinner'
@@ -29,11 +29,11 @@ function Login() {
 
         if (isSuccess && user) {
             console.log(`Welcome ${user.name}.`)
-            navigate('/adminspace')
+            navigate('/')
         }
 
-        dispatch(reset())
-    }, [isError, message, isSuccess, user, dispatch, navigate])
+        // dispatch(reset())
+    }, [isError, message, isSuccess, user, navigate])
 
     function onChange(e) {
         setFormData((prevState) => ({

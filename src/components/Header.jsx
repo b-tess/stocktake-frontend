@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import { logout, reset } from '../features/auth/authSlice'
 import { Link } from 'react-router-dom'
 import { GoSignIn, GoSignOut, GoHome, GoPerson } from 'react-icons/go'
@@ -9,12 +9,12 @@ function Header() {
     const { user } = useSelector((state) => state.auth)
     const dispatch = useDispatch()
 
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
     function onLogout() {
-        dispatch(logout())
+        // navigate('/')
         dispatch(reset())
-        navigate('/')
+        dispatch(logout())
         console.log('logged out')
     }
 
@@ -27,7 +27,10 @@ function Header() {
             <ul>
                 {user ? (
                     <li>
-                        <Link onClick={onLogout}>
+                        <Link
+                            to={'/'}
+                            onClick={onLogout}
+                        >
                             <GoSignOut />
                             Sign Out
                         </Link>
