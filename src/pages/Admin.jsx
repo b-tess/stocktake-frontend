@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAdminStatus } from '../hooks/useAdminStatus'
 
@@ -10,11 +10,6 @@ function Admin() {
     const [isHidden, setIsHidden] = useState(true)
 
     const navigate = useNavigate()
-
-    useEffect(() => {
-        console.log(`hidden: ${isHidden}`)
-        //eslint-disable-next-line
-    }, [])
 
     function hideCategoryDiv() {
         setIsHidden(!isHidden)
@@ -41,24 +36,25 @@ function Admin() {
                     >
                         Stock In
                     </button>
-                    <div
-                        className='categoryDiv'
-                        hidden={isHidden}
-                    >
-                        <p>Please select a category</p>
-                        <button
-                            className='btn btn-sm'
-                            type='button'
-                        >
-                            Medication
-                        </button>
-                        <button
-                            className='btn btn-sm'
-                            type='button'
-                        >
-                            Utilities
-                        </button>
-                    </div>
+
+                    {/* Toggle the visibility of the category div on button click */}
+                    {!isHidden && (
+                        <div className='categoryDiv'>
+                            <p>Please select a category</p>
+                            <button
+                                className='btn btn-sm'
+                                type='button'
+                            >
+                                Medication
+                            </button>
+                            <button
+                                className='btn btn-sm'
+                                type='button'
+                            >
+                                Utilities
+                            </button>
+                        </div>
+                    )}
                 </div>
             </main>
         </>

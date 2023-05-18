@@ -165,7 +165,7 @@ a {
 
 .categoryDiv {
     display: flex;
-    border: #212529 solid 1px;
+    /* border: #212529 solid 1px; */
     justify-content: space-between;
     align-items: center;
     width: 40%;
