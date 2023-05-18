@@ -1,13 +1,26 @@
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-// import { useSelector } from 'react-redux'
 import { useAdminStatus } from '../hooks/useAdminStatus'
 
 function Admin() {
     //Check if a user is admin or not
-    // const { user } = useSelector((state) => state.auth)
     const { isAdministrator } = useAdminStatus()
 
+    //Add functionality to display or hide categoryDiv
+    const [isHidden, setIsHidden] = useState(true)
+
     const navigate = useNavigate()
+
+    useEffect(() => {
+        console.log(`hidden: ${isHidden}`)
+        //eslint-disable-next-line
+    }, [])
+
+    function hideCategoryDiv() {
+        setIsHidden(!isHidden)
+        console.log(`Value of hidden is ${isHidden}`)
+    }
+
     return (
         <>
             <main>
@@ -24,10 +37,28 @@ function Admin() {
                         type='button'
                         className='btn'
                         disabled={isAdministrator ? false : true}
-                        onClick={() => navigate('/')}
+                        onClick={hideCategoryDiv}
                     >
                         Stock In
                     </button>
+                    <div
+                        className='categoryDiv'
+                        hidden={isHidden}
+                    >
+                        <p>Please select a category</p>
+                        <button
+                            className='btn btn-sm'
+                            type='button'
+                        >
+                            Medication
+                        </button>
+                        <button
+                            className='btn btn-sm'
+                            type='button'
+                        >
+                            Utilities
+                        </button>
+                    </div>
                 </div>
             </main>
         </>
