@@ -130,6 +130,22 @@ a {
     background-color: rgba(33, 37, 41, 0.9);
 }
 
+.btn-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: none;
+    border: none;
+    color: #000;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-close:hover {
+    color: #ff0000;
+    transform: scale(0.98);
+}
+
 .form {
     width: 70%;
     margin: 0 auto;
@@ -150,13 +166,26 @@ a {
     color: #212529;
 }
 
-.form-group input {
+.form-group input,
+.form-group .date-picker {
     padding: 12px;
     border: none;
     border-radius: 10px;
     box-shadow: 0 2px 1px #c9184a;
     background-color: transparent;
     width: 97%;
+}
+
+.form-group .date-picker {
+    /* border: #212529 solid 1px; */
+    padding: 25px;
+    margin-top: 15px;
+}
+
+.form-group .date-picker input {
+    box-shadow: none;
+    height: max-content;
+    width: max-content;
 }
 
 .form-group .btn {
