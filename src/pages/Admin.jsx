@@ -1,10 +1,14 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { createMedicationStockItem, reset } from '../features/stock/stockSlice'
 import { useAdminStatus } from '../hooks/useAdminStatus'
 import Modal from 'react-modal'
 import DatePicker from 'react-date-picker'
 import 'react-date-picker/dist/DatePicker.css'
 import 'react-calendar/dist/Calendar.css'
+import { toast } from 'react-toastify'
+import Spinner from '../components/Spinner'
 
 const customStyles = {
     content: {
@@ -24,6 +28,11 @@ const customStyles = {
 Modal.setAppElement('#root')
 
 function Admin() {
+    //Global state
+    const { isLoading, isSuccess, isError, message } = useSelector(
+        (state) => state.stock
+    )
+
     //Check if a user is admin or not
     const { isAdministrator } = useAdminStatus()
 
@@ -37,10 +46,25 @@ function Admin() {
         name: '',
         inStock: 0,
     })
-    const [expDate, setExpDate] = useState(new Date())
+    const [expDate, setExpDate] = useState()
 
     const { name, inStock } = formData
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (isError) {
+            toast.error(message)
+        }
+
+        if (isSuccess) {
+            toast.success('Item created successfully.')
+            dispatch(reset())
+            navigate('/')
+        }
+
+        dispatch(reset())
+    }, [isError, message, isSuccess, navigate, dispatch])
 
     function hideCategoryDiv() {
         setIsHidden(!isHidden)
@@ -64,9 +88,22 @@ function Admin() {
         }))
     }
 
-    function onCreateStockItem(e) {
+    function onSubmit(e) {
         e.preventDefault()
         closeModal()
+
+        const medicationData = {
+            name,
+            inStock,
+            expDate,
+        }
+
+        console.log(expDate)
+        dispatch(createMedicationStockItem(medicationData))
+    }
+
+    if (isLoading) {
+        return <Spinner />
     }
 
     return (
@@ -123,7 +160,7 @@ function Admin() {
                         >
                             X
                         </button>
-                        <form onSubmit={onCreateStockItem}>
+                        <form onSubmit={onSubmit}>
                             <div className='form-group'>
                                 <input
                                     type='text'
@@ -132,6 +169,7 @@ function Admin() {
                                     value={name}
                                     placeholder='Item Name'
                                     onChange={onChange}
+                                    required
                                 />
                                 <input
                                     type='number'
@@ -140,13 +178,17 @@ function Admin() {
                                     value={inStock}
                                     placeholder='Number in stock'
                                     onChange={onChange}
+                                    required
                                 />
                                 <DatePicker
                                     value={expDate}
                                     onChange={setExpDate}
                                     required
+                                    calendarType='ISO 8601'
                                     format='y-M'
-                                    disableCalendar
+                                    // disableCalendar
+                                    view='year'
+                                    maxDetail='year'
                                     minDate={new Date()}
                                     yearPlaceholder='yyyy'
                                     monthPlaceholder='mm'
