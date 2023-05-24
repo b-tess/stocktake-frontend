@@ -98,7 +98,7 @@ function Admin() {
             expDate,
         }
 
-        console.log(expDate)
+        console.log(`${expDate}Z`.toString())
         dispatch(createMedicationStockItem(medicationData))
     }
 
@@ -162,6 +162,7 @@ function Admin() {
                         </button>
                         <form onSubmit={onSubmit}>
                             <div className='form-group'>
+                                <label htmlFor='name'>Item Name</label>
                                 <input
                                     type='text'
                                     name='name'
@@ -171,22 +172,25 @@ function Admin() {
                                     onChange={onChange}
                                     required
                                 />
+                                <label htmlFor='inStock'>Stock Amount</label>
                                 <input
                                     type='number'
                                     name='inStock'
                                     id='inStock'
+                                    min={1}
                                     value={inStock}
                                     placeholder='Number in stock'
                                     onChange={onChange}
                                     required
                                 />
+                                <label htmlFor='expDate'>Expiry Date</label>
                                 <DatePicker
+                                    id='expDate'
                                     value={expDate}
                                     onChange={setExpDate}
                                     required
-                                    calendarType='ISO 8601'
+                                    calendarClassName={'calendarDiv'}
                                     format='y-M'
-                                    // disableCalendar
                                     view='year'
                                     maxDetail='year'
                                     minDate={new Date()}

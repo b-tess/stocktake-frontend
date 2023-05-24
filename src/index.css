@@ -164,6 +164,7 @@ a {
 .form-group label {
     display: block;
     color: #212529;
+    margin-top: 7px;
 }
 
 .form-group input,
@@ -190,6 +191,20 @@ a {
 
 .form-group .btn {
     margin: 0 auto;
+}
+
+.calendarDiv {
+    max-height: 172px;
+    display: flex;
+    flex-direction: column;
+}
+
+.calendarDiv div:last-child {
+    max-height: 140px;
+}
+
+.calendarDiv div:last-child div button {
+    padding: 7px;
 }
 
 .categoryDiv {
