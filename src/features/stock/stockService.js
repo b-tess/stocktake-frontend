@@ -12,12 +12,26 @@ async function createMedicationStockItem(medicationData, token) {
 
     const response = await axios.post(MEDICATION_URL, medicationData, config)
 
-    // return response.data
-    console.log(response.data)
+    return response.data
+    // console.log(response.data)
+}
+
+//Get all medication stock items as long as user is logged in
+async function getMedicationStockItems(token) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    const response = await axios.get(MEDICATION_URL, config)
+
+    return response.data
 }
 
 const stockService = {
     createMedicationStockItem,
+    getMedicationStockItems,
 }
 
 export default stockService

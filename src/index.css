@@ -222,6 +222,23 @@ a {
     }
 }
 
+.stockItemsContainer h1 {
+    text-align: center;
+}
+
+.stockItemHeadings {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 700;
+}
+
 .spinnerContainer {
     position: fixed;
     top: 0;

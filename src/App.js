@@ -7,6 +7,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Admin from './pages/Admin'
+import StockItems from './pages/StockItems'
 
 function App() {
     return (
@@ -34,6 +35,15 @@ function App() {
                             <Route
                                 path='/adminspace'
                                 element={<Admin />}
+                            />
+                        </Route>
+                        <Route
+                            path='/stockitems'
+                            element={<PrivateRoute />}
+                        >
+                            <Route
+                                path='/stockitems'
+                                element={<StockItems />}
                             />
                         </Route>
                     </Routes>
