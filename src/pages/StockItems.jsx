@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getMedicationStockItems, reset } from '../features/stock/stockSlice'
 import Spinner from '../components/Spinner'
+import StockItem from '../components/StockItem'
 import { toast } from 'react-toastify'
 
 function StockItems() {
@@ -14,15 +15,18 @@ function StockItems() {
 
     //Fetch the stock items on page load
     useEffect(() => {
-        dispatch(getMedicationStockItems)
+        dispatch(getMedicationStockItems())
     }, [dispatch])
 
-    //Handle any potential errors
+    //Handle any potential errors and info
     useEffect(() => {
+        if (isSuccess && stockItems.length === 0) {
+            toast.info('No items in stock.')
+        }
         if (isError) {
             toast.error(message)
         }
-    }, [isError, message])
+    }, [isSuccess, stockItems.length, isError, message])
 
     //Reset the state on unmount -
     //Not sure why this is needed yet
@@ -47,9 +51,12 @@ function StockItems() {
                 <div>Expiry Date</div>
                 <div></div>
             </div>
-            {stockItems.length === 0
-                ? toast.info('No items in stock.')
-                : stockItems.map((item) => <StockItem key={item._id} />)}
+            {stockItems.map((stockItem) => (
+                <StockItem
+                    key={stockItem._id}
+                    stockItem={stockItem}
+                />
+            ))}
         </div>
     )
 }

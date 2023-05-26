@@ -226,6 +226,7 @@ a {
     text-align: center;
 }
 
+.stock-item,
 .stockItemHeadings {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -236,6 +237,9 @@ a {
     padding: 10px 15px;
     border-radius: 5px;
     text-align: center;
+}
+
+.stockItemHeadings {
     font-weight: 700;
 }
 

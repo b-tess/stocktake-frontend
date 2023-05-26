@@ -42,7 +42,7 @@ function Admin() {
     //Set local state for collecting the form data
     //Set the initial state of the date picker
     const [isHidden, setIsHidden] = useState(true)
-    const [isDisabled, setIsDisabled] = useState(true)
+    // const [isDisabled, setIsDisabled] = useState(true)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [formData, setFormData] = useState({
         name: '',
@@ -61,7 +61,7 @@ function Admin() {
 
         if (isSuccess) {
             toast.success('Item created successfully.')
-            setIsDisabled(false)
+            // setIsDisabled(false)
             dispatch(reset())
             // navigate('/')
         }
@@ -153,7 +153,7 @@ function Admin() {
                     {/* View stock items button to navigate to /stockitems page */}
                     <button
                         className='btn btn-sm'
-                        disabled={isDisabled}
+                        // disabled={isDisabled}
                         onClick={() => navigate('/stockitems')}
                     >
                         View Stock Items
