@@ -1,37 +1,39 @@
 import axios from 'axios'
 
-const MEDICATION_URL = '/api/medication'
+// const MEDICATION_URL = '/api/medication'
+const STOCKITEMS_URL = '/api/stockitems'
 
-//Create a new medication stock item as long as user is logged in & an admin
-async function createMedicationStockItem(medicationData, token) {
+//Create a new stock item as long as user is logged in & an admin
+async function createStockItem(stockData, token) {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     }
 
-    const response = await axios.post(MEDICATION_URL, medicationData, config)
+    const response = await axios.post(STOCKITEMS_URL, stockData, config)
 
     return response.data
     // console.log(response.data)
 }
 
-//Get all medication stock items as long as user is logged in
-async function getMedicationStockItems(token) {
+//Get all stock items, regardless of the item type,
+//as long as user is logged in
+async function getAllStockItems(token) {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     }
 
-    const response = await axios.get(MEDICATION_URL, config)
+    const response = await axios.get(STOCKITEMS_URL, config)
 
     return response.data
 }
 
 const stockService = {
-    createMedicationStockItem,
-    getMedicationStockItems,
+    getAllStockItems,
+    createStockItem,
 }
 
 export default stockService

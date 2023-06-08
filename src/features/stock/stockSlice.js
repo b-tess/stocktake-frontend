@@ -10,16 +10,13 @@ const initialState = {
     message: '',
 }
 
-//Create a new medication stock item
-export const createMedicationStockItem = createAsyncThunk(
-    'stock/createmedication',
-    async (medicationData, thunkAPI) => {
+//Create a new stock item
+export const createStockItem = createAsyncThunk(
+    'stock/createstockitem',
+    async (stockData, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token
-            return await stockService.createMedicationStockItem(
-                medicationData,
-                token
-            )
+            return await stockService.createStockItem(stockData, token)
         } catch (error) {
             const message =
                 (error.response &&
@@ -32,17 +29,17 @@ export const createMedicationStockItem = createAsyncThunk(
     }
 )
 
-//Get all medication stock items
+//Get ALL stock items
 //The _ as a parameter for the async callback allows access to
 //the thunkAPI when there isn't a need to pass another
 //parameter before it.
 //Can't the thunkAPI be passed as a single parameter? Not sure...
-export const getMedicationStockItems = createAsyncThunk(
-    'stock/getallmedication',
+export const getAllStockItems = createAsyncThunk(
+    'stock/getallstockitems',
     async (_, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token
-            return await stockService.getMedicationStockItems(token)
+            return await stockService.getAllStockItems(token)
         } catch (error) {
             const message =
                 (error.response &&
@@ -63,27 +60,27 @@ export const stockSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(createMedicationStockItem.pending, (state) => {
+            .addCase(createStockItem.pending, (state) => {
                 state.isLoading = true
             })
-            .addCase(createMedicationStockItem.fulfilled, (state) => {
+            .addCase(createStockItem.fulfilled, (state) => {
                 state.isLoading = false
                 state.isSuccess = true
             })
-            .addCase(createMedicationStockItem.rejected, (state, action) => {
+            .addCase(createStockItem.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload
             })
-            .addCase(getMedicationStockItems.pending, (state) => {
+            .addCase(getAllStockItems.pending, (state) => {
                 state.isLoading = true
             })
-            .addCase(getMedicationStockItems.fulfilled, (state, action) => {
+            .addCase(getAllStockItems.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
                 state.stockItems = action.payload
             })
-            .addCase(getMedicationStockItems.rejected, (state, action) => {
+            .addCase(getAllStockItems.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload

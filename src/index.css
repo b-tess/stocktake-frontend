@@ -229,12 +229,12 @@ a {
 .stock-item,
 .stockItemHeadings {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    padding: 10px 15px;
+    margin-bottom: 10px;
+    padding: 5px 7px;
     border-radius: 5px;
     text-align: center;
 }

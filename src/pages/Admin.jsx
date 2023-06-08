@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { createMedicationStockItem, reset } from '../features/stock/stockSlice'
+import { createStockItem, reset } from '../features/stock/stockSlice'
 import { useAdminStatus } from '../hooks/useAdminStatus'
 import Modal from 'react-modal'
 import DatePicker from 'react-date-picker'
@@ -36,21 +36,18 @@ function Admin() {
     //Check if a user is admin or not
     const { isAdministrator } = useAdminStatus()
 
-    //Display & hide categoryDiv
-    //On item creation = view stock items button enabled
     //Set the initial state of the Modal
     //Set local state for collecting the form data
     //Set the initial state of the date picker
-    const [isHidden, setIsHidden] = useState(true)
-    // const [isDisabled, setIsDisabled] = useState(true)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [formData, setFormData] = useState({
         name: '',
         inStock: 0,
+        itemType: 'Medication',
     })
     const [expDate, setExpDate] = useState()
 
-    const { name, inStock } = formData
+    const { name, inStock, itemType } = formData
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -61,18 +58,12 @@ function Admin() {
 
         if (isSuccess) {
             toast.success('Item created successfully.')
-            // setIsDisabled(false)
-            dispatch(reset())
+            // dispatch(reset())
             // navigate('/')
         }
 
         dispatch(reset())
-    }, [isError, message, isSuccess, navigate, dispatch])
-
-    function hideCategoryDiv() {
-        setIsHidden(!isHidden)
-        console.log(`Value of hidden is ${isHidden}`)
-    }
+    }, [isError, message, isSuccess, dispatch])
 
     //Open the modal
     function openModal() {
@@ -95,14 +86,19 @@ function Admin() {
         e.preventDefault()
         closeModal()
 
-        const medicationData = {
+        const stockItemData = {
             name,
             inStock,
             expDate,
+            itemType,
         }
 
         console.log(`${expDate}Z`.toString())
-        dispatch(createMedicationStockItem(medicationData))
+        dispatch(createStockItem(stockItemData))
+
+        //Reset the values in the modal input fields
+        setExpDate()
+        setFormData({ name: '', inStock: 0, itemType: 'Medication' })
     }
 
     if (isLoading) {
@@ -125,35 +121,14 @@ function Admin() {
                         type='button'
                         className='btn'
                         disabled={isAdministrator ? false : true}
-                        onClick={hideCategoryDiv}
+                        onClick={openModal}
                     >
                         Stock In
                     </button>
 
-                    {/* Toggle the visibility of the category div on button click */}
-                    {!isHidden && (
-                        <div className='categoryDiv'>
-                            <p>Please select a category</p>
-                            <button
-                                className='btn btn-sm'
-                                type='button'
-                                onClick={openModal}
-                            >
-                                Medication
-                            </button>
-                            <button
-                                className='btn btn-sm'
-                                type='button'
-                            >
-                                Utilities
-                            </button>
-                        </div>
-                    )}
-
                     {/* View stock items button to navigate to /stockitems page */}
                     <button
                         className='btn btn-sm'
-                        // disabled={isDisabled}
                         onClick={() => navigate('/stockitems')}
                     >
                         View Stock Items
@@ -210,6 +185,18 @@ function Admin() {
                                     monthPlaceholder='mm'
                                     className={'date-picker'}
                                 />
+                                <label htmlFor='itemType'>Item Type</label>
+                                <select
+                                    name='itemType'
+                                    id='itemType'
+                                    value={itemType}
+                                    onChange={onChange}
+                                >
+                                    <option value='Medication'>
+                                        Medication
+                                    </option>
+                                    <option value='Utility'>Utility</option>
+                                </select>
                                 {/* <input
                                     // type='date'
                                     name='expDate'
