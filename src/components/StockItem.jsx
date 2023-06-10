@@ -10,7 +10,7 @@ function StockItem({ stockItem }) {
             </div>
             <div>{stockItem.itemType}</div>
             <Link
-                to={'/stockitem'}
+                to={`/stockitems/${stockItem._id}`}
                 className='btn btn-sm'
             >
                 View

@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 
 function StockItems() {
     //Access the global state
-    const { stockItems, isLoading, isSuccess, isError, message } = useSelector(
+    const { stockItems, isLoading, isError, message } = useSelector(
         (state) => state.stock
     )
 
@@ -17,32 +17,30 @@ function StockItems() {
     //Fetch the stock items on page load
     useEffect(() => {
         dispatch(getAllStockItems())
-        // console.log(`Is success is ${isSuccess}`)
-    }, [dispatch])
 
-    //Handle any potential errors and info
-    useEffect(() => {
-        if (isSuccess && stockItems.length === 0) {
-            toast.info('No items in stock.')
-        }
         if (isError) {
             toast.error(message)
         }
-        // dispatch(reset())
-    }, [isSuccess, stockItems.length, isError, message])
+    }, [isError, message, dispatch])
+
+    //Handle any potential errors and info
+    // useEffect(() => {
+    //     if (isSuccess && stockItems.length === 0) {
+    //         toast.info('No items in stock.')
+    //     }
+    //     if (isError) {
+    //         toast.error(message)
+    //     }
+    //     // dispatch(reset())
+    // }, [isSuccess, stockItems.length, isError, message])
 
     //Reset the state on unmount -
     //Not sure why this is needed yet
     useEffect(() => {
-        console.log(isSuccess)
         return () => {
-            if (isSuccess) {
-                dispatch(reset())
-                console.log('cleanup')
-            }
+            dispatch(reset())
         }
-        //es-lint disable next line
-    }, [isSuccess, dispatch])
+    }, [dispatch])
 
     if (isLoading) {
         return <Spinner />

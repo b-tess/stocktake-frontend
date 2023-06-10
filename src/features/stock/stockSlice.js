@@ -3,7 +3,7 @@ import stockService from './stockService'
 
 const initialState = {
     stockItems: [],
-    stockitem: {},
+    stockItem: {},
     isLoading: false,
     isSuccess: false,
     isError: false,
@@ -52,6 +52,25 @@ export const getAllStockItems = createAsyncThunk(
     }
 )
 
+//Get one stock item for viewing and possibly editing
+export const getOneStockItem = createAsyncThunk(
+    'stock/getonestockitem',
+    async (stockItemId, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token
+            return await stockService.getOneStockItem(stockItemId, token)
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString()
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
 export const stockSlice = createSlice({
     name: 'stock',
     initialState,
@@ -77,10 +96,23 @@ export const stockSlice = createSlice({
             })
             .addCase(getAllStockItems.fulfilled, (state, action) => {
                 state.isLoading = false
-                state.isSuccess = true
+                // state.isSuccess = true
                 state.stockItems = action.payload
             })
             .addCase(getAllStockItems.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(getOneStockItem.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getOneStockItem.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.stockItem = action.payload
+            })
+            .addCase(getOneStockItem.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload

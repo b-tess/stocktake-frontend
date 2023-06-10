@@ -31,9 +31,24 @@ async function getAllStockItems(token) {
     return response.data
 }
 
+//Get one stock item, regardless of the item type,
+//as long as user is logged in and is an admin
+async function getOneStockItem(stockItemId, token) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    const response = await axios.get(STOCKITEMS_URL + `/${stockItemId}`, config)
+
+    return response.data
+}
+
 const stockService = {
-    getAllStockItems,
     createStockItem,
+    getAllStockItems,
+    getOneStockItem,
 }
 
 export default stockService

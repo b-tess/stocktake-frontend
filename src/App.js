@@ -8,6 +8,7 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Admin from './pages/Admin'
 import StockItems from './pages/StockItems'
+import StockItem from './pages/StockItem'
 
 function App() {
     return (
@@ -44,6 +45,15 @@ function App() {
                             <Route
                                 path='/stockitems'
                                 element={<StockItems />}
+                            />
+                        </Route>
+                        <Route
+                            path='/stockitems/:stockItemId'
+                            element={<PrivateRoute />}
+                        >
+                            <Route
+                                path='/stockitems/:stockItemId'
+                                element={<StockItem />}
                             />
                         </Route>
                     </Routes>
