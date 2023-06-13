@@ -71,6 +71,29 @@ export const getOneStockItem = createAsyncThunk(
     }
 )
 
+//Update the inStock &/or expDate of a stock item
+export const updateStockItem = createAsyncThunk(
+    'stock/updatestockitem',
+    async ({ stockItemId, updateData }, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token
+            return await stockService.updateStockItem(
+                stockItemId,
+                updateData,
+                token
+            )
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString()
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
 export const stockSlice = createSlice({
     name: 'stock',
     initialState,
@@ -113,6 +136,19 @@ export const stockSlice = createSlice({
                 state.stockItem = action.payload
             })
             .addCase(getOneStockItem.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(updateStockItem.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(updateStockItem.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.stockItem = action.payload
+            })
+            .addCase(updateStockItem.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload

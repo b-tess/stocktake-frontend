@@ -45,10 +45,27 @@ async function getOneStockItem(stockItemId, token) {
     return response.data
 }
 
+async function updateStockItem(stockItemId, updateData, token) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    const response = await axios.put(
+        STOCKITEMS_URL + `/${stockItemId}`,
+        updateData,
+        config
+    )
+
+    return response.data
+}
+
 const stockService = {
     createStockItem,
     getAllStockItems,
     getOneStockItem,
+    updateStockItem,
 }
 
 export default stockService

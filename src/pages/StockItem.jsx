@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { getOneStockItem } from '../features/stock/stockSlice'
+import { useAdminStatus } from '../hooks/useAdminStatus'
+import { getOneStockItem, updateStockItem } from '../features/stock/stockSlice'
 import { toast } from 'react-toastify'
 import BackButton from '../components/BackButton'
 import Spinner from '../components/Spinner'
@@ -13,13 +14,16 @@ function StockItem() {
         (state) => state.stock
     )
 
+    //Check if the user accessing the page is an admin
+    const { isAdministrator } = useAdminStatus()
+
     //Create local state to help capture any data that
     //will be used to edit an item doc in the backend
-    const [expDate, setExpDate] = useState(stockItem.expDate)
+    const [expDate, setExpDate] = useState()
+    const [inStock, setInStock] = useState(0)
 
     const { stockItemId } = useParams()
     const dispatch = useDispatch()
-    const navigate = useNavigate()
 
     useEffect(() => {
         dispatch(getOneStockItem(stockItemId))
@@ -28,6 +32,13 @@ function StockItem() {
             toast.error(message)
         }
     }, [stockItemId, isError, message, dispatch])
+
+    function onSubmit(e) {
+        e.preventDefault()
+
+        const updateData = { expDate, inStock }
+        dispatch(updateStockItem({ stockItemId, updateData }))
+    }
 
     if (isLoading) {
         return <Spinner />
@@ -40,7 +51,10 @@ function StockItem() {
                 <h1>Stock Item Details</h1>
             </div>
             <div>
-                <form className='form'>
+                <form
+                    className='form'
+                    onSubmit={onSubmit}
+                >
                     <div className='form-group'>
                         <label htmlFor='item-id'>Item Id</label>
                         <input
@@ -67,14 +81,16 @@ function StockItem() {
                             type='number'
                             name='number-in-stock'
                             id='number-in-stock'
-                            value={stockItem.inStock}
+                            value={inStock}
                             min={stockItem.inStock}
+                            placeholder={stockItem.inStock}
+                            onChange={(e) => setInStock(e.target.value)}
                         />
                     </div>
                     <div className='form-group'>
-                        <label htmlFor='item-exp-date'>Expiry Date</label>
+                        <label htmlFor='expDate'>Expiry Date</label>
                         <DatePicker
-                            id='item-exp-date'
+                            id='expDate'
                             value={expDate}
                             onChange={setExpDate}
                             required
@@ -98,6 +114,13 @@ function StockItem() {
                             disabled
                         />
                     </div>
+                    <button
+                        type='submit'
+                        className='btn btn-sm'
+                        disabled={isAdministrator ? false : true}
+                    >
+                        Edit
+                    </button>
                 </form>
             </div>
             {/* <div className='stockItemHeadings'>
