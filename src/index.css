@@ -146,6 +146,24 @@ a {
     transform: scale(0.98);
 }
 
+.btn-danger:hover {
+    background-color: #c9184a;
+}
+
+.button-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 12px;
+}
+
+.button-container .btn {
+    justify-self: center;
+}
+
+#confirm-delete {
+    font-weight: 500;
+}
+
 .form {
     width: 70%;
     margin: 0 auto;

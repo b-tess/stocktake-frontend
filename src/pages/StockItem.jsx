@@ -7,6 +7,22 @@ import { toast } from 'react-toastify'
 import BackButton from '../components/BackButton'
 import Spinner from '../components/Spinner'
 import DatePicker from 'react-date-picker'
+import Modal from 'react-modal'
+
+const customStyles = {
+    content: {
+        width: '600px',
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        position: 'relative',
+    },
+}
+
+Modal.setAppElement('#root')
 
 function StockItem() {
     //Access the global state
@@ -21,6 +37,7 @@ function StockItem() {
     //will be used to edit an item doc in the backend
     const [expDate, setExpDate] = useState()
     const [inStock, setInStock] = useState(0)
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     const { stockItemId } = useParams()
     const dispatch = useDispatch()
@@ -32,6 +49,16 @@ function StockItem() {
             toast.error(message)
         }
     }, [stockItemId, isError, message, dispatch])
+
+    //Open the modal
+    function openModal() {
+        setIsModalOpen(true)
+    }
+
+    //Close the modal
+    function closeModal() {
+        setIsModalOpen(false)
+    }
 
     function onSubmit(e) {
         e.preventDefault()
@@ -114,14 +141,59 @@ function StockItem() {
                             disabled
                         />
                     </div>
-                    <button
-                        type='submit'
-                        className='btn btn-sm'
-                        disabled={isAdministrator ? false : true}
-                    >
-                        Edit
-                    </button>
+                    <div className='button-container'>
+                        <button
+                            type='submit'
+                            className='btn btn-sm'
+                            disabled={isAdministrator ? false : true}
+                        >
+                            Edit
+                        </button>
+                        <button
+                            type='button'
+                            className='btn btn-sm btn-danger'
+                            disabled={isAdministrator ? false : true}
+                            onClick={openModal}
+                        >
+                            Delete
+                        </button>
+                    </div>
                 </form>
+
+                <Modal
+                    isOpen={isModalOpen}
+                    onRequestClose={closeModal}
+                    style={customStyles}
+                    contentLabel='Delete Stock Item'
+                >
+                    <h3>Delete Stock Item</h3>
+                    <button
+                        className='btn-close'
+                        onClick={closeModal}
+                    >
+                        X
+                    </button>
+                    <>
+                        <p id='confirm-delete'>
+                            Would you like to delete this item?
+                        </p>
+                        <div className='button-container'>
+                            <button
+                                type='button'
+                                className='btn btn-sm btn-danger'
+                            >
+                                Yes
+                            </button>
+                            <button
+                                type='button'
+                                className='btn btn-sm'
+                                onClick={closeModal}
+                            >
+                                No
+                            </button>
+                        </div>
+                    </>
+                </Modal>
             </div>
             {/* <div className='stockItemHeadings'>
                 <div>Id</div>
