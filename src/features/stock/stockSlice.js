@@ -94,6 +94,25 @@ export const updateStockItem = createAsyncThunk(
     }
 )
 
+//Delete a stock item
+export const deleteStockItem = createAsyncThunk(
+    'stock/deletestockitem',
+    async (stockItemId, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token
+            return await stockService.deleteStockItem(stockItemId, token)
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString()
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
 export const stockSlice = createSlice({
     name: 'stock',
     initialState,
@@ -149,6 +168,19 @@ export const stockSlice = createSlice({
                 state.stockItem = action.payload
             })
             .addCase(updateStockItem.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(deleteStockItem.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(deleteStockItem.fulfilled, (state, action) => {
+                state.isLoading = false
+                // state.isSuccess = true
+                state.stockItem = action.payload
+            })
+            .addCase(deleteStockItem.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload

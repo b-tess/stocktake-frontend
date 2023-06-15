@@ -61,11 +61,27 @@ async function updateStockItem(stockItemId, updateData, token) {
     return response.data
 }
 
+async function deleteStockItem(stockItemId, token) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    const response = await axios.delete(
+        STOCKITEMS_URL + `/${stockItemId}`,
+        config
+    )
+
+    return response.data
+}
+
 const stockService = {
     createStockItem,
     getAllStockItems,
     getOneStockItem,
     updateStockItem,
+    deleteStockItem,
 }
 
 export default stockService

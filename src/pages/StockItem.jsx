@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useAdminStatus } from '../hooks/useAdminStatus'
-import { getOneStockItem, updateStockItem } from '../features/stock/stockSlice'
+import {
+    getOneStockItem,
+    updateStockItem,
+    deleteStockItem,
+    reset,
+} from '../features/stock/stockSlice'
 import { toast } from 'react-toastify'
 import BackButton from '../components/BackButton'
 import Spinner from '../components/Spinner'
@@ -41,12 +46,22 @@ function StockItem() {
 
     const { stockItemId } = useParams()
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    //Reset the state on component unmount
+    //Not sure if/how this works yet
+    useEffect(() => {
+        return () => {
+            dispatch(reset())
+        }
+    }, [dispatch])
 
     useEffect(() => {
         dispatch(getOneStockItem(stockItemId))
 
         if (isError) {
             toast.error(message)
+            dispatch(reset())
         }
     }, [stockItemId, isError, message, dispatch])
 
@@ -60,11 +75,29 @@ function StockItem() {
         setIsModalOpen(false)
     }
 
+    function onItemDelete() {
+        dispatch(deleteStockItem(stockItemId))
+        if (isError) {
+            toast.error(message)
+            dispatch(reset())
+        } else {
+            toast.info(`${stockItem.name} successfully deleted.`)
+            navigate('/stockitems')
+        }
+    }
+
     function onSubmit(e) {
         e.preventDefault()
 
         const updateData = { expDate, inStock }
         dispatch(updateStockItem({ stockItemId, updateData }))
+        if (isError) {
+            toast.error(message)
+            dispatch(reset())
+        } else {
+            toast.info(`${stockItem.name} successfully updated.`)
+            navigate('/stockitems')
+        }
     }
 
     if (isLoading) {
@@ -181,6 +214,7 @@ function StockItem() {
                             <button
                                 type='button'
                                 className='btn btn-sm btn-danger'
+                                onClick={onItemDelete}
                             >
                                 Yes
                             </button>
