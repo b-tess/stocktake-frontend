@@ -4,6 +4,7 @@ import stockService from './stockService'
 const initialState = {
     stockItems: [],
     stockItem: {},
+    count: 0,
     isLoading: false,
     isSuccess: false,
     isError: false,
@@ -36,10 +37,10 @@ export const createStockItem = createAsyncThunk(
 //Can't the thunkAPI be passed as a single parameter? Not sure...
 export const getAllStockItems = createAsyncThunk(
     'stock/getallstockitems',
-    async (_, thunkAPI) => {
+    async (page, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token
-            return await stockService.getAllStockItems(token)
+            return await stockService.getAllStockItems(page, token)
         } catch (error) {
             const message =
                 (error.response &&
@@ -55,10 +56,10 @@ export const getAllStockItems = createAsyncThunk(
 //Get one stock item for viewing and possibly editing
 export const getOneStockItem = createAsyncThunk(
     'stock/getonestockitem',
-    async (stockItemId, thunkAPI) => {
+    async ({ page, stockItemId }, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token
-            return await stockService.getOneStockItem(stockItemId, token)
+            return await stockService.getOneStockItem(page, stockItemId, token)
         } catch (error) {
             const message =
                 (error.response &&
@@ -139,7 +140,8 @@ export const stockSlice = createSlice({
             .addCase(getAllStockItems.fulfilled, (state, action) => {
                 state.isLoading = false
                 // state.isSuccess = true
-                state.stockItems = action.payload
+                state.stockItems = action.payload.stockItems
+                state.count = action.payload.totalPages
             })
             .addCase(getAllStockItems.rejected, (state, action) => {
                 state.isLoading = false

@@ -19,14 +19,14 @@ async function createStockItem(stockData, token) {
 
 //Get all stock items, regardless of the item type,
 //as long as user is logged in
-async function getAllStockItems(token) {
+async function getAllStockItems(page, token) {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     }
 
-    const response = await axios.get(STOCKITEMS_URL, config)
+    const response = await axios.get(STOCKITEMS_URL + `/pg/${page}`, config)
 
     return response.data
 }

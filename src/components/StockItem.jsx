@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 
 function StockItem({ stockItem }) {
+    // const { page } = useParams()
     return (
         <div className='stock-item'>
             <div>{stockItem.name}</div>
