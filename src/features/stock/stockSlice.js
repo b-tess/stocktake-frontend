@@ -56,10 +56,11 @@ export const getAllStockItems = createAsyncThunk(
 //Get one stock item for viewing and possibly editing
 export const getOneStockItem = createAsyncThunk(
     'stock/getonestockitem',
-    async ({ page, stockItemId }, thunkAPI) => {
+    async ({ stockItemId }, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token
-            return await stockService.getOneStockItem(page, stockItemId, token)
+            // console.log(stockItemId)
+            return await stockService.getOneStockItem(stockItemId, token)
         } catch (error) {
             const message =
                 (error.response &&

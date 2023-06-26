@@ -2,6 +2,7 @@ import axios from 'axios'
 
 // const MEDICATION_URL = '/api/medication'
 const STOCKITEMS_URL = '/api/stockitems'
+const STOCKITEM_URL = '/api/stockitem'
 
 //Create a new stock item as long as user is logged in & an admin
 async function createStockItem(stockData, token) {
@@ -26,7 +27,8 @@ async function getAllStockItems(page, token) {
         },
     }
 
-    const response = await axios.get(STOCKITEMS_URL + `/pg/${page}`, config)
+    const response = await axios.get(STOCKITEMS_URL + `/${page}`, config)
+    console.log(response.data)
 
     return response.data
 }
@@ -40,7 +42,8 @@ async function getOneStockItem(stockItemId, token) {
         },
     }
 
-    const response = await axios.get(STOCKITEMS_URL + `/${stockItemId}`, config)
+    console.log(stockItemId)
+    const response = await axios.get(STOCKITEM_URL + `/${stockItemId}`, config)
 
     return response.data
 }
@@ -53,7 +56,7 @@ async function updateStockItem(stockItemId, updateData, token) {
     }
 
     const response = await axios.put(
-        STOCKITEMS_URL + `/${stockItemId}`,
+        STOCKITEM_URL + `/${stockItemId}`,
         updateData,
         config
     )
@@ -69,7 +72,7 @@ async function deleteStockItem(stockItemId, token) {
     }
 
     const response = await axios.delete(
-        STOCKITEMS_URL + `/${stockItemId}`,
+        STOCKITEM_URL + `/${stockItemId}`,
         config
     )
 

@@ -63,6 +63,7 @@ function StockItem() {
             toast.error(message)
             dispatch(reset())
         }
+        //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [stockItemId, isError, message, dispatch])
 
     //Open the modal

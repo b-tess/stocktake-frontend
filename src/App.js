@@ -39,20 +39,20 @@ function App() {
                             />
                         </Route>
                         <Route
-                            path='/stockitems/pg/:page'
+                            path='/stockitems/:page'
                             element={<PrivateRoute />}
                         >
                             <Route
-                                path='/stockitems/pg/:page'
+                                path='/stockitems/:page'
                                 element={<StockItems />}
                             />
                         </Route>
                         <Route
-                            path='/stockitems/:stockItemId'
+                            path='/stockitem/:stockItemId'
                             element={<PrivateRoute />}
                         >
                             <Route
-                                path='/stockitems/:stockItemId'
+                                path='/stockitem/:stockItemId'
                                 element={<StockItem />}
                             />
                         </Route>
