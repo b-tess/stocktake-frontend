@@ -44,12 +44,13 @@ function StockItem() {
     const [inStock, setInStock] = useState(0)
     const [isModalOpen, setIsModalOpen] = useState(false)
 
+    // console.log(useParams())
     const { stockItemId } = useParams()
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     //Reset the state on component unmount
-    //Not sure if/how this works yet
+    //Not sure if/how this works yet.
     useEffect(() => {
         return () => {
             dispatch(reset())
@@ -61,12 +62,10 @@ function StockItem() {
 
         if (isError) {
             toast.error(message)
-            dispatch(reset())
         }
-        //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [stockItemId, isError, message, dispatch])
 
-    //Open the modal
+    //Open the modal.
     function openModal() {
         setIsModalOpen(true)
     }

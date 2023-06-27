@@ -37,10 +37,10 @@ export const createStockItem = createAsyncThunk(
 //Can't the thunkAPI be passed as a single parameter? Not sure...
 export const getAllStockItems = createAsyncThunk(
     'stock/getallstockitems',
-    async (page, thunkAPI) => {
+    async (pageNumber, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token
-            return await stockService.getAllStockItems(page, token)
+            return await stockService.getAllStockItems(pageNumber, token)
         } catch (error) {
             const message =
                 (error.response &&
@@ -56,10 +56,9 @@ export const getAllStockItems = createAsyncThunk(
 //Get one stock item for viewing and possibly editing
 export const getOneStockItem = createAsyncThunk(
     'stock/getonestockitem',
-    async ({ stockItemId }, thunkAPI) => {
+    async (stockItemId, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token
-            // console.log(stockItemId)
             return await stockService.getOneStockItem(stockItemId, token)
         } catch (error) {
             const message =

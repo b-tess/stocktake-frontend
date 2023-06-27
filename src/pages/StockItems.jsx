@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-// import { useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllStockItems, reset } from '../features/stock/stockSlice'
 import Spinner from '../components/Spinner'
@@ -15,20 +14,18 @@ function StockItems() {
     )
 
     //Manage the state of the page to load
-    const [page, setPage] = useState(1)
+    const [pageNumber, setPageNumber] = useState(1)
 
-    // const {page} = useParams()
     const dispatch = useDispatch()
-    // const location = useLocation()
 
     //Fetch the stock items on page load
     useEffect(() => {
-        dispatch(getAllStockItems(page))
+        dispatch(getAllStockItems(pageNumber))
 
         if (isError) {
             toast.error(message)
         }
-    }, [isError, message, page, dispatch])
+    }, [isError, message, pageNumber, dispatch])
 
     //Handle any potential errors and info
     // useEffect(() => {
@@ -50,9 +47,8 @@ function StockItems() {
     }, [dispatch])
 
     //Function to load correct page items
-    function onPageLoad(e) {
-        setPage(e.target.value)
-        dispatch(getAllStockItems(page))
+    function onPageLoad(e, value) {
+        setPageNumber(value)
     }
 
     if (isLoading) {
@@ -80,7 +76,7 @@ function StockItems() {
             </div>
             <Pagination
                 count={count}
-                page={page}
+                page={pageNumber}
                 siblingCount={0}
                 variant='outlined'
                 onChange={onPageLoad}

@@ -261,6 +261,10 @@ a {
     font-weight: 700;
 }
 
+nav ul {
+    justify-content: center;
+}
+
 .spinnerContainer {
     position: fixed;
     top: 0;

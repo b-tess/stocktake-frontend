@@ -15,26 +15,28 @@ async function createStockItem(stockData, token) {
     const response = await axios.post(STOCKITEMS_URL, stockData, config)
 
     return response.data
-    // console.log(response.data)
 }
 
 //Get all stock items, regardless of the item type,
 //as long as user is logged in
-async function getAllStockItems(page, token) {
+async function getAllStockItems(pageNumber, token) {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     }
 
-    const response = await axios.get(STOCKITEMS_URL + `/${page}`, config)
-    console.log(response.data)
+    const response = await axios.get(
+        STOCKITEMS_URL + `?page=${pageNumber}`,
+        config
+    )
+    // console.log(response.data)
 
     return response.data
 }
 
 //Get one stock item, regardless of the item type,
-//as long as user is logged in and is an admin
+//as long as user is logged in and is an admin.
 async function getOneStockItem(stockItemId, token) {
     const config = {
         headers: {
@@ -42,7 +44,6 @@ async function getOneStockItem(stockItemId, token) {
         },
     }
 
-    console.log(stockItemId)
     const response = await axios.get(STOCKITEM_URL + `/${stockItemId}`, config)
 
     return response.data

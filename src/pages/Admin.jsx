@@ -46,7 +46,6 @@ function Admin() {
         itemType: 'Medication',
     })
     const [expDate, setExpDate] = useState()
-    const [page] = useState(1)
 
     const { name, inStock, itemType } = formData
     const navigate = useNavigate()
@@ -130,7 +129,7 @@ function Admin() {
                     {/* View stock items button to navigate to /stockitems page */}
                     <button
                         className='btn btn-sm'
-                        onClick={() => navigate(`/stockitems/${page}`)}
+                        onClick={() => navigate('/stockitems')}
                     >
                         View Stock Items
                     </button>
