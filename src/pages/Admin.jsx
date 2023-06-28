@@ -113,7 +113,7 @@ function Admin() {
                     <button
                         type='button'
                         className='btn'
-                        onClick={() => navigate('/')}
+                        onClick={() => navigate('/stockitems/stockout')}
                     >
                         Stock Out
                     </button>

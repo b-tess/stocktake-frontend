@@ -107,7 +107,7 @@ function StockItem() {
     return (
         <>
             <BackButton url={'/stockitems'} />
-            <div className='stockItemsContainer'>
+            <div className='stock-items-container'>
                 <h1>Stock Item Details</h1>
             </div>
             <div>

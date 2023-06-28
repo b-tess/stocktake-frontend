@@ -9,6 +9,7 @@ import Signup from './pages/Signup'
 import Admin from './pages/Admin'
 import StockItems from './pages/StockItems'
 import StockItem from './pages/StockItem'
+import StockOut from './pages/StockOut'
 
 function App() {
     return (
@@ -45,6 +46,15 @@ function App() {
                             <Route
                                 path='/stockitems'
                                 element={<StockItems />}
+                            />
+                        </Route>
+                        <Route
+                            path='/stockitems/stockout'
+                            element={<PrivateRoute />}
+                        >
+                            <Route
+                                path='/stockitems/stockout'
+                                element={<StockOut />}
                             />
                         </Route>
                         <Route
