@@ -12,7 +12,7 @@ import Spinner from '../components/Spinner'
 
 const customStyles = {
     content: {
-        width: '600px',
+        width: '85%',
         top: '50%',
         left: '50%',
         right: 'auto',
@@ -139,6 +139,7 @@ function Admin() {
                         onRequestClose={closeModal}
                         style={customStyles}
                         contentLabel='Add Stock Item'
+                        // className='Modal'
                     >
                         <h3>Add Stock Item</h3>
                         <button

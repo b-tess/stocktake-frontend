@@ -30,7 +30,8 @@ export const createStockItem = createAsyncThunk(
     }
 )
 
-//Get ALL stock items
+//Get ALL stock items for stock in/admin purposes
+//Access: logged in and isAdmin
 //The _ as a parameter for the async callback allows access to
 //the thunkAPI when there isn't a need to pass another
 //parameter before it.
@@ -41,6 +42,26 @@ export const getAllStockItems = createAsyncThunk(
         try {
             const token = thunkAPI.getState().auth.user.token
             return await stockService.getAllStockItems(pageNumber, token)
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString()
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
+//Get ALL stock items for stock out purposes
+//Access: anyone who's logged in
+export const getAllStockOutItems = createAsyncThunk(
+    'stock/getallstockoutitems',
+    async (pageNumber, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token
+            return await stockService.getAllStockOutItems(pageNumber, token)
         } catch (error) {
             const message =
                 (error.response &&
@@ -72,7 +93,7 @@ export const getOneStockItem = createAsyncThunk(
     }
 )
 
-//Update the inStock &/or expDate of a stock item
+//Update the inStock &/or expDate of a stock item by admin
 export const updateStockItem = createAsyncThunk(
     'stock/updatestockitem',
     async ({ stockItemId, updateData }, thunkAPI) => {
@@ -83,6 +104,25 @@ export const updateStockItem = createAsyncThunk(
                 updateData,
                 token
             )
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString()
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
+//Update the inStock &/or expDate of a stock item by admin
+export const updOnStockOut = createAsyncThunk(
+    'stock/updateonstockout',
+    async (requestBody, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token
+            return await stockService.updOnStockOut(requestBody, token)
         } catch (error) {
             const message =
                 (error.response &&
@@ -148,6 +188,19 @@ export const stockSlice = createSlice({
                 state.isError = true
                 state.message = action.payload
             })
+            .addCase(getAllStockOutItems.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getAllStockOutItems.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.stockItems = action.payload.stockItems
+                state.count = action.payload.totalPages
+            })
+            .addCase(getAllStockOutItems.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
             .addCase(getOneStockItem.pending, (state) => {
                 state.isLoading = true
             })
@@ -170,6 +223,19 @@ export const stockSlice = createSlice({
                 state.stockItem = action.payload
             })
             .addCase(updateStockItem.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(updOnStockOut.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(updOnStockOut.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.stockItem = action.payload
+            })
+            .addCase(updOnStockOut.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload

@@ -35,6 +35,23 @@ async function getAllStockItems(pageNumber, token) {
     return response.data
 }
 
+//Get all stock items, regardless of the item type,
+//for stock out purposes as long as user is logged in
+async function getAllStockOutItems(pageNumber, token) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    const response = await axios.get(
+        STOCKITEMS_URL + `/stockout?page=${pageNumber}`,
+        config
+    )
+
+    return response.data
+}
+
 //Get one stock item, regardless of the item type,
 //as long as user is logged in and is an admin.
 async function getOneStockItem(stockItemId, token) {
@@ -49,6 +66,10 @@ async function getOneStockItem(stockItemId, token) {
     return response.data
 }
 
+//Update one stock item, regardless of the item type
+//Access: user is logged in and is an admin
+//Admin can add to inStock amount
+//Admin can change the expiry date
 async function updateStockItem(stockItemId, updateData, token) {
     const config = {
         headers: {
@@ -59,6 +80,25 @@ async function updateStockItem(stockItemId, updateData, token) {
     const response = await axios.put(
         STOCKITEM_URL + `/${stockItemId}`,
         updateData,
+        config
+    )
+
+    return response.data
+}
+
+//Update one stock item, regardless of the item type
+//Access: user is logged in
+//User can consume from inStock amount
+async function updOnStockOut(requestBody, token) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    const response = await axios.put(
+        STOCKITEMS_URL + '/stockout',
+        requestBody,
         config
     )
 
@@ -83,8 +123,10 @@ async function deleteStockItem(stockItemId, token) {
 const stockService = {
     createStockItem,
     getAllStockItems,
+    getAllStockOutItems,
     getOneStockItem,
     updateStockItem,
+    updOnStockOut,
     deleteStockItem,
 }
 

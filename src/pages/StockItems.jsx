@@ -58,7 +58,7 @@ function StockItems() {
     return (
         <>
             <BackButton url={'/adminspace'} />
-            <div className='stockItemsContainer'>
+            <div className='stock-items-container'>
                 <h1>Stock Items</h1>
                 <div className='stockItemHeadings'>
                     <div>Name</div>
