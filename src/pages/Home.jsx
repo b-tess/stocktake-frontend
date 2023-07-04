@@ -1,6 +1,19 @@
-import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 function Home() {
+    //If user is logged in, navigate to /adminspace
+    //Else load the normal homepage
+    const { user } = useSelector((state) => state.auth)
+
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (user) {
+            navigate('/adminspace')
+        }
+    }, [user, navigate])
     return (
         <>
             <div className='capsule'>
@@ -9,7 +22,7 @@ function Home() {
                     to={'/adminspace'}
                     className='btn'
                 >
-                    Admin Space
+                    Log In
                 </Link>
                 <Link
                     to={'/signup'}

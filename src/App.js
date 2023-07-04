@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import PrivateRoute from './components/PrivateRoute'
 import Header from './components/Header'
 import Home from './pages/Home'
+import VerifyEmail from './pages/VerifyEmail'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Admin from './pages/Admin'
@@ -29,6 +30,10 @@ function App() {
                         <Route
                             path='/signup'
                             element={<Signup />}
+                        />
+                        <Route
+                            path='/verifyemail/:newusertoken'
+                            element={<VerifyEmail />}
                         />
                         <Route
                             path='/adminspace'
