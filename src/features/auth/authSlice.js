@@ -46,6 +46,25 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
     }
 })
 
+//Verify a new user's email
+export const isVerified = createAsyncThunk(
+    'auth/emailverification',
+    async (newusertoken, thunkAPI) => {
+        try {
+            return await authService.isVerified(newusertoken)
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString()
+
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
 //Log a user out
 export const logout = createAsyncThunk('auth/logout', () => {
     authService.logout()
@@ -81,6 +100,18 @@ export const authSlice = createSlice({
                 state.user = action.payload
             })
             .addCase(login.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(isVerified.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(isVerified.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.user = action.payload
+            })
+            .addCase(isVerified.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload

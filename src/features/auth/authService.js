@@ -24,6 +24,14 @@ async function login(userData) {
     return response.data
 }
 
+//Verify a user's email
+async function isVerified(newusertoken) {
+    const response = await axios.get(
+        `http://localhost:5050${API_URL}/verifyemail/${newusertoken}`
+    )
+    return response.data
+}
+
 //Log out a user
 export function logout() {
     localStorage.removeItem('user')
@@ -32,6 +40,7 @@ export function logout() {
 const authService = {
     signup,
     login,
+    isVerified,
     logout,
 }
 

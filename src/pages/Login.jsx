@@ -15,7 +15,7 @@ function Login() {
     const { email, password } = formData
 
     //Access the global state
-    const { isLoading, user, isSuccess, isError, message } = useSelector(
+    const { isLoading, isSuccess, isError, message } = useSelector(
         (state) => state.auth
     )
     const dispatch = useDispatch()
@@ -30,13 +30,13 @@ function Login() {
             dispatch(reset())
         }
 
-        if (isSuccess && user) {
-            console.log(`Welcome ${user.name}.`)
-            // navigate('/adminspace')
+        if (isSuccess) {
+            // console.log(`Welcome ${user.name}.`)
+            navigate('/adminspace')
         }
 
         // dispatch(reset())
-    }, [isError, message, isSuccess, user, navigate, dispatch])
+    }, [isError, message, isSuccess, navigate, dispatch])
 
     function onChange(e) {
         setFormData((prevState) => ({

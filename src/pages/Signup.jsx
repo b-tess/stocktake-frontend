@@ -17,7 +17,7 @@ function Signup() {
     const { name, email, password, password2 } = formData
 
     //Access the global state
-    const { isLoading, user, isSuccess, isError, message } = useSelector(
+    const { isLoading, isSuccess, isError, message } = useSelector(
         (state) => state.auth
     )
     const dispatch = useDispatch()
@@ -29,13 +29,14 @@ function Signup() {
             dispatch(reset())
         }
 
-        if (user && isSuccess) {
-            console.log(`Hello ${user.name}.`)
+        if (isSuccess) {
+            // console.log(`Hello ${user.name}.`)
+            dispatch(reset())
             navigate('/login')
         }
 
         // dispatch(reset())
-    }, [isError, message, user, isSuccess, navigate, dispatch])
+    }, [isError, message, isSuccess, navigate, dispatch])
 
     function onChange(e) {
         setFormData((prevState) => ({
