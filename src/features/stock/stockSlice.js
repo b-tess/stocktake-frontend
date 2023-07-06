@@ -74,6 +74,26 @@ export const getAllStockOutItems = createAsyncThunk(
     }
 )
 
+//Get ALL medication stock items for stock out purposes
+//Access: anyone who's logged in
+export const getAllMedItems = createAsyncThunk(
+    'stock/getallmeditems',
+    async (pageNumber, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token
+            return await stockService.getAllMedItems(pageNumber, token)
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString()
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
 //Get one stock item for viewing and possibly editing
 export const getOneStockItem = createAsyncThunk(
     'stock/getonestockitem',
@@ -197,6 +217,19 @@ export const stockSlice = createSlice({
                 state.count = action.payload.totalPages
             })
             .addCase(getAllStockOutItems.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(getAllMedItems.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getAllMedItems.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.stockItems = action.payload.stockItems
+                state.count = action.payload.totalPages
+            })
+            .addCase(getAllMedItems.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload

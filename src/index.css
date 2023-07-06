@@ -229,8 +229,9 @@ a {
     padding: 7px;
 }
 
-.categoryDiv {
+.filter-div {
     display: flex;
+    flex-direction: column;
     /* border: #212529 solid 1px; */
     justify-content: space-between;
     align-items: center;
@@ -238,8 +239,17 @@ a {
     /* flex-basis: content; */
 }
 
+.after-the-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.filter-div > p {
+    font-weight: 600;
+}
+
 @media (max-width: 600px) {
-    .categoryDiv {
+    .filter-div {
         flex-wrap: wrap;
     }
     body {

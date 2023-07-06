@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllStockOutItems, reset } from '../features/stock/stockSlice'
+import {
+    getAllStockOutItems,
+    getAllMedItems,
+    reset,
+} from '../features/stock/stockSlice'
 import BackButton from '../components/BackButton'
 import Spinner from '../components/Spinner'
 import StockOutItem from '../components/StockOutItem'
@@ -9,10 +13,11 @@ import { toast } from 'react-toastify'
 
 function StockOut() {
     //Access the global state in the app store
-    const { stockItems, count, isSuccess, isLoading, isError, message } =
-        useSelector((state) => state.stock)
+    const { stockItems, count, isLoading, isError, message } = useSelector(
+        (state) => state.stock
+    )
 
-    //Create local state
+    //Create local state for the pagination component to use
     const [pageNumber, setPageNumber] = useState(1)
 
     const dispatch = useDispatch()
@@ -26,15 +31,20 @@ function StockOut() {
     useEffect(() => {
         dispatch(getAllStockOutItems(pageNumber))
 
-        if (isSuccess) {
-            toast.info('Successful stock out.')
-            dispatch(reset())
-        }
-
         if (isError) {
             toast.error(message)
         }
-    }, [pageNumber, isSuccess, isError, message, dispatch])
+    }, [pageNumber, isError, message, dispatch])
+
+    function getAll() {
+        dispatch(reset())
+        dispatch(getAllStockOutItems(pageNumber))
+    }
+
+    function getMeds() {
+        dispatch(reset())
+        dispatch(getAllMedItems(pageNumber))
+    }
 
     if (isLoading) {
         return <Spinner />
@@ -42,7 +52,27 @@ function StockOut() {
 
     return (
         <>
-            <BackButton url={'/adminspace'} />
+            <div className='after-the-header-container'>
+                <BackButton url={'/adminspace'} />
+                <div className='filter-div'>
+                    <p>Filter by:</p>
+                    <button
+                        type='button'
+                        className='btn btn-sm'
+                        onClick={getAll}
+                    >
+                        All
+                    </button>
+                    <button
+                        type='button'
+                        className='btn btn-sm'
+                        onClick={getMeds}
+                    >
+                        Medication
+                    </button>
+                    <button className='btn btn-sm'>Utilities</button>
+                </div>
+            </div>
             <div className='stock-items-container'>
                 <h1>Stock Out</h1>
                 <div className='stockItemHeadings'>

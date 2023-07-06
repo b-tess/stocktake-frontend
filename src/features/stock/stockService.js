@@ -49,6 +49,25 @@ async function getAllStockOutItems(pageNumber, token) {
         config
     )
 
+    console.log('All stock items fetched.')
+    return response.data
+}
+
+//Get all medication stock items,
+//for stock out purposes as long as user is logged in
+async function getAllMedItems(pageNumber, token) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    const response = await axios.get(
+        STOCKITEMS_URL + `/medication?page=${pageNumber}`,
+        config
+    )
+
+    console.log('Med items fetched.')
     return response.data
 }
 
@@ -125,6 +144,7 @@ const stockService = {
     getAllStockItems,
     getAllStockOutItems,
     getOneStockItem,
+    getAllMedItems,
     updateStockItem,
     updOnStockOut,
     deleteStockItem,
