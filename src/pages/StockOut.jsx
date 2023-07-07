@@ -14,6 +14,9 @@ import { toast } from 'react-toastify'
 
 function StockOut() {
     //Access the global state in the app store
+    //isSuccess is used to cause a page refresh
+    //that allows a stock item's updated inStock value to
+    //reflect on the UI upon update
     const { stockItems, count, isSuccess, isLoading, isError, message } =
         useSelector((state) => state.stock)
 
