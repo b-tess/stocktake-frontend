@@ -71,6 +71,24 @@ async function getAllMedItems(pageNumber, token) {
     return response.data
 }
 
+//Get all utility stock items,
+//for stock out purposes as long as user is logged in
+async function getAllUtilityItems(pageNumber, token) {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    const response = await axios.get(
+        STOCKITEMS_URL + `/utilities?page=${pageNumber}`,
+        config
+    )
+
+    console.log('Utility items fetched.')
+    return response.data
+}
+
 //Get one stock item, regardless of the item type,
 //as long as user is logged in and is an admin.
 async function getOneStockItem(stockItemId, token) {
@@ -145,6 +163,7 @@ const stockService = {
     getAllStockOutItems,
     getOneStockItem,
     getAllMedItems,
+    getAllUtilityItems,
     updateStockItem,
     updOnStockOut,
     deleteStockItem,

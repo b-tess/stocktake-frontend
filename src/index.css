@@ -179,7 +179,8 @@ a {
     width: 100%;
 }
 
-.form-group label {
+.form-group label,
+.filter-div > label {
     display: block;
     color: #212529;
     margin-top: 7px;
@@ -233,10 +234,17 @@ a {
     display: flex;
     flex-direction: column;
     /* border: #212529 solid 1px; */
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
     width: 40%;
     /* flex-basis: content; */
+}
+
+#filter {
+    background-color: transparent;
+    border-color: #6c757d;
+    border-radius: 7px;
+    width: 45%;
 }
 
 .after-the-header-container {
@@ -244,7 +252,7 @@ a {
     justify-content: space-between;
     align-items: flex-start;
 }
-.filter-div > p {
+.filter-div > label {
     font-weight: 600;
 }
 
