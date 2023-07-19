@@ -60,6 +60,10 @@ a {
     align-items: center;
 }
 
+.header a.link-disabled {
+    cursor: default;
+}
+
 .header ul {
     display: flex;
     align-items: center;

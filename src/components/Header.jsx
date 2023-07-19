@@ -1,13 +1,14 @@
 import { useSelector, useDispatch } from 'react-redux'
 // import { useNavigate } from 'react-router-dom'
 import { logout, reset } from '../features/auth/authSlice'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { GoSignIn, GoSignOut, GoHome, GoPerson } from 'react-icons/go'
 
 function Header() {
     //Check if a user is logged in using the auth state
     const { user } = useSelector((state) => state.auth)
     const dispatch = useDispatch()
+    const location = useLocation()
 
     // const navigate = useNavigate()
 
@@ -18,40 +19,59 @@ function Header() {
         console.log('logged out')
     }
 
-    return (
-        <header className='header'>
-            <Link to={'/'}>
-                <GoHome /> Stocktake App
-            </Link>
+    function onClick(e) {
+        e.preventDefault()
+    }
 
-            <ul>
-                {user ? (
-                    <li>
+    return (
+        <>
+            {/* Don't render the header when the page is /verifyemail/:newusertoken */}
+            {!location.pathname.startsWith('/verifyemail/') && (
+                <header className='header'>
+                    {location.pathname === '/login' ? (
                         <Link
                             to={'/'}
-                            onClick={onLogout}
+                            className='link-disabled'
+                            onClick={onClick}
                         >
-                            <GoSignOut />
-                            Sign Out
+                            <GoHome /> Stocktake App
                         </Link>
-                    </li>
-                ) : (
-                    <>
-                        <li>
-                            <Link to={'/login'}>
-                                <GoSignIn /> Sign In
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to={'/signup'}>
-                                <GoPerson />
-                                Sign Up
-                            </Link>
-                        </li>
-                    </>
-                )}
-            </ul>
-        </header>
+                    ) : (
+                        <Link to={'/'}>
+                            <GoHome /> Stocktake App
+                        </Link>
+                    )}
+
+                    <ul>
+                        {user && location.pathname !== '/login' ? (
+                            <li>
+                                <Link
+                                    to={'/'}
+                                    onClick={onLogout}
+                                >
+                                    <GoSignOut />
+                                    Sign Out
+                                </Link>
+                            </li>
+                        ) : (
+                            <>
+                                <li>
+                                    <Link to={'/login'}>
+                                        <GoSignIn /> Sign In
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={'/signup'}>
+                                        <GoPerson />
+                                        Sign Up
+                                    </Link>
+                                </li>
+                            </>
+                        )}
+                    </ul>
+                </header>
+            )}
+        </>
     )
 }
 
