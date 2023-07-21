@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllStockItems, reset } from '../features/stock/stockSlice'
+import {
+    getAllStockItems,
+    getAllMedItems,
+    getAllUtilityItems,
+    reset,
+} from '../features/stock/stockSlice'
 import Spinner from '../components/Spinner'
 import StockItem from '../components/StockItem'
 import BackButton from '../components/BackButton'
@@ -14,18 +19,30 @@ function StockItems() {
     )
 
     //Manage the state of the page to load
+    //and the initial state of the select input
     const [pageNumber, setPageNumber] = useState(1)
+    const [filterValue, setFilterValue] = useState('All')
 
     const dispatch = useDispatch()
 
-    //Fetch the stock items on page load
+    //Fetch the stock items depending on the filter value
     useEffect(() => {
-        dispatch(getAllStockItems(pageNumber))
+        if (filterValue === 'All') {
+            dispatch(getAllStockItems(pageNumber))
+        }
+
+        if (filterValue === 'Medication') {
+            dispatch(getAllMedItems(pageNumber))
+        }
+
+        if (filterValue === 'Utility') {
+            dispatch(getAllUtilityItems(pageNumber))
+        }
 
         if (isError) {
             toast.error(message)
         }
-    }, [isError, message, pageNumber, dispatch])
+    }, [isError, message, pageNumber, filterValue, dispatch])
 
     //Handle any potential errors and info
     // useEffect(() => {
@@ -51,6 +68,14 @@ function StockItems() {
         setPageNumber(value)
     }
 
+    //Reset the page number to 1 before a new query function is called
+    function onChange(e) {
+        setFilterValue(e.target.value)
+        if (pageNumber !== 1) {
+            setPageNumber(1)
+        }
+    }
+
     if (isLoading) {
         return <Spinner />
     }
@@ -60,9 +85,17 @@ function StockItems() {
             <div className='after-the-header-container'>
                 <BackButton url={'/adminspace'} />
                 <div className='filter-div'>
-                    <p>Filter by:</p>
-                    <button className='btn btn-sm'>Medication</button>
-                    <button className='btn btn-sm'>Utilities</button>
+                    <label htmlFor='filter'>Filter by:</label>
+                    <select
+                        name='filter'
+                        id='filter'
+                        onChange={onChange}
+                    >
+                        <option value='select'>--Select--</option>
+                        <option value='All'>All</option>
+                        <option value='Medication'>Medication</option>
+                        <option value='Utility'>Utilities</option>
+                    </select>
                 </div>
             </div>
             <div className='stock-items-container'>
