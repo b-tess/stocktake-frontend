@@ -128,7 +128,9 @@ function Admin() {
 
                     {/* View stock items button to navigate to /stockitems page */}
                     <button
-                        className='btn btn-sm'
+                        className={`btn btn-sm ${
+                            !isAdministrator && 'not-visible'
+                        }`}
                         onClick={() => navigate('/stockitems')}
                     >
                         View Stock Items

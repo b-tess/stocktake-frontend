@@ -134,6 +134,10 @@ a {
     background-color: rgba(33, 37, 41, 0.9);
 }
 
+.btn.btn-sm.not-visible {
+    display: none;
+}
+
 .btn-close {
     position: absolute;
     top: 5px;
