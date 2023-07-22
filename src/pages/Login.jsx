@@ -15,7 +15,7 @@ function Login() {
     const { email, password } = formData
 
     //Access the global state
-    const { isLoading, isSuccess, isError, message } = useSelector(
+    const { user, isLoading, isSuccess, isError, message } = useSelector(
         (state) => state.auth
     )
     const dispatch = useDispatch()
@@ -30,13 +30,15 @@ function Login() {
             dispatch(reset())
         }
 
-        if (isSuccess) {
+        if (isSuccess && user) {
+            user.isVerified
+                ? navigate('/adminspace')
+                : toast.info('Please check your email and verify your account.')
             // console.log(`Welcome ${user.name}.`)
-            navigate('/adminspace')
         }
 
         // dispatch(reset())
-    }, [isError, message, isSuccess, navigate, dispatch])
+    }, [user, isError, message, isSuccess, navigate, dispatch])
 
     function onChange(e) {
         setFormData((prevState) => ({

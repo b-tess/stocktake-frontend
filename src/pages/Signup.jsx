@@ -4,6 +4,22 @@ import { signup, reset } from '../features/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Spinner from '../components/Spinner'
+import Modal from 'react-modal'
+
+const customStyles = {
+    content: {
+        width: '85%',
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        position: 'relative',
+    },
+}
+
+Modal.setAppElement('#root')
 
 function Signup() {
     //Use local state to manage the form data
@@ -13,6 +29,7 @@ function Signup() {
         password: '',
         password2: '',
     })
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     const { name, email, password, password2 } = formData
 
@@ -23,6 +40,15 @@ function Signup() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    //Open and close the modal
+    function openModal() {
+        setIsModalOpen(true)
+    }
+
+    function closeModal() {
+        setIsModalOpen(false)
+    }
+
     useEffect(() => {
         if (isError) {
             toast.error(message)
@@ -32,7 +58,8 @@ function Signup() {
         if (isSuccess) {
             // console.log(`Hello ${user.name}.`)
             dispatch(reset())
-            navigate('/login')
+            // navigate('/login')
+            openModal()
         }
 
         // dispatch(reset())
@@ -132,6 +159,34 @@ function Signup() {
                     </div>
                 </form>
             </div>
+            <Modal
+                isOpen={isModalOpen}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel='Verification email sent'
+            >
+                <h3>Verification email sent.</h3>
+                <button
+                    type='button'
+                    className='btn-close'
+                    onClick={closeModal}
+                >
+                    X
+                </button>
+                <p>
+                    A verification email has been sent. <br />
+                    <strong>
+                        Please use it to verify your account before logging in.
+                    </strong>
+                </p>
+                <button
+                    type='button'
+                    className='btn btn-sm'
+                    onClick={() => navigate('/login')}
+                >
+                    Log in
+                </button>
+            </Modal>
         </div>
     )
 }

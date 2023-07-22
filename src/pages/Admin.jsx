@@ -143,6 +143,7 @@ function Admin() {
                     >
                         <h3>Add Stock Item</h3>
                         <button
+                            type='button'
                             className='btn-close'
                             onClick={closeModal}
                         >
