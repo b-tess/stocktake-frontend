@@ -11,6 +11,7 @@ import Admin from './pages/Admin'
 import StockItems from './pages/StockItems'
 import StockItem from './pages/StockItem'
 import StockOut from './pages/StockOut'
+import NotFound from './pages/NotFound'
 
 function App() {
     return (
@@ -71,6 +72,14 @@ function App() {
                                 element={<StockItem />}
                             />
                         </Route>
+                        <Route
+                            path='/notfound'
+                            element={<NotFound />}
+                        />
+                        <Route
+                            path='/*'
+                            element={<NotFound />}
+                        />
                     </Routes>
                 </div>
             </Router>

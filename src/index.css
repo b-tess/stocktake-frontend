@@ -51,7 +51,8 @@ a {
     box-shadow: 0 2px 1px #c9184a;
 }
 
-.header a {
+.header a,
+.not-found-home-link {
     background-color: #6c757d;
     padding: 2px;
     border-radius: 5px;
@@ -134,9 +135,9 @@ a {
     background-color: rgba(33, 37, 41, 0.9);
 }
 
-.btn.btn-sm.not-visible {
+/* .btn.btn-sm.not-visible {
     display: none;
-}
+} */
 
 .btn-close {
     position: absolute;
@@ -263,6 +264,12 @@ a {
 .filter-div > label {
     font-weight: 600;
 }
+
+/* @media (max-height: 600px) {
+    .modal {
+        height: 70%;
+    }
+} */
 
 @media (max-width: 600px) {
     .filter-div {

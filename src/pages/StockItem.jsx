@@ -89,7 +89,9 @@ function StockItem() {
     function onSubmit(e) {
         e.preventDefault()
 
-        const updateData = { expDate, inStock }
+        const name = stockItem.name
+        const itemType = stockItem.itemType
+        const updateData = { expDate, inStock, name, itemType }
         dispatch(updateStockItem({ stockItemId, updateData }))
         if (isError) {
             toast.error(message)

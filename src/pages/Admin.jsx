@@ -13,6 +13,7 @@ import Spinner from '../components/Spinner'
 const customStyles = {
     content: {
         width: '85%',
+        height: '73%',
         top: '50%',
         left: '50%',
         right: 'auto',
@@ -58,7 +59,7 @@ function Admin() {
 
         if (isSuccess) {
             toast.success('Item created successfully.')
-            //dispatch(reset())
+            // dispatch(reset())
             // navigate('/')
         }
 
@@ -128,9 +129,11 @@ function Admin() {
 
                     {/* View stock items button to navigate to /stockitems page */}
                     <button
-                        className={`btn btn-sm ${
-                            !isAdministrator && 'not-visible'
-                        }`}
+                        // className={`btn btn-sm ${
+                        //     !isAdministrator && 'not-visible'
+                        // }`} //Attempt to make it impossible for a non-admin to view the item
+                        //No need as the backend handles it & the edit & del buttons are disabled
+                        className='btn btn-sm'
                         onClick={() => navigate('/stockitems')}
                     >
                         View Stock Items
@@ -141,7 +144,7 @@ function Admin() {
                         onRequestClose={closeModal}
                         style={customStyles}
                         contentLabel='Add Stock Item'
-                        // className='Modal'
+                        // className={'modal'}
                     >
                         <h3>Add Stock Item</h3>
                         <button

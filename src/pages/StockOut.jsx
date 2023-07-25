@@ -53,6 +53,10 @@ function StockOut() {
             dispatch(getAllUtilityItems(pageNumber))
         }
 
+        if (isSuccess) {
+            dispatch(reset())
+        }
+
         if (isError) {
             toast.error(message)
         }
