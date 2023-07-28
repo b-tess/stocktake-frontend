@@ -1,15 +1,24 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { updOnStockOut } from '../features/stock/stockSlice'
+import { updOnStockOut, reset } from '../features/stock/stockSlice'
 import Spinner from './Spinner'
+import { toast } from 'react-toastify'
 
 function StockOutItem({ stockItem }) {
-    const { isLoading } = useSelector((state) => state.stock)
+    const { isLoading, isError, message } = useSelector((state) => state.stock)
 
     //Manage the state of the quantity input locally.
     const [quantity, setQuantity] = useState(0)
 
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (isError) {
+            toast.error(message)
+            dispatch(reset())
+        }
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isError, message, dispatch])
 
     const requestBody = {
         id: stockItem._id,
@@ -39,6 +48,7 @@ function StockOutItem({ stockItem }) {
                     id='quantity'
                     value={quantity}
                     min={0}
+                    max={stockItem.inStock}
                     onChange={(e) => setQuantity(e.target.value)}
                 />
             </div>
@@ -46,6 +56,7 @@ function StockOutItem({ stockItem }) {
                 type='button'
                 className='btn btn-sm'
                 onClick={onStockOut}
+                disabled={stockItem.inStock === 0 ? true : false}
             >
                 Stock Out
             </button>
