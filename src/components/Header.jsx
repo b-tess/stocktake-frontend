@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { logout, reset } from '../features/auth/authSlice'
 import { Link, useLocation } from 'react-router-dom'
 import { GoSignIn, GoSignOut, GoHome, GoPerson } from 'react-icons/go'
@@ -10,12 +10,12 @@ function Header() {
     const dispatch = useDispatch()
     const location = useLocation()
 
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
     function onLogout() {
-        // navigate('/')
         dispatch(reset())
         dispatch(logout())
+        navigate('/')
         console.log('logged out')
     }
 

@@ -278,6 +278,9 @@ a {
     body {
         font-size: small;
     }
+    .btn-stock-out-item {
+        width: 65%;
+    }
 }
 
 .stock-items-container h1 {
@@ -300,6 +303,10 @@ a {
 .stockItemHeadings {
     font-weight: 700;
 }
+
+/* .btn-stock-out-item {
+    margin: 0 auto;
+} */
 
 nav ul {
     justify-content: center;
