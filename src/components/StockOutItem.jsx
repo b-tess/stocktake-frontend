@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { updOnStockOut, reset } from '../features/stock/stockSlice'
 import Spinner from './Spinner'
-// import { toast } from 'react-toastify'
 import Modal from 'react-modal'
 import { GoAlert } from 'react-icons/go'
 
@@ -56,7 +55,6 @@ function StockOutItem({ stockItem }) {
 
     function onStockOut() {
         if (quantity > stockItem.inStock) {
-            // toast.warning('Please check your quantity.')
             openModal()
         } else {
             dispatch(updOnStockOut(requestBody))
